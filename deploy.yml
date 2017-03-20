@@ -1,0 +1,30 @@
+- hosts: all
+  become: true
+
+  vars:
+    deploy_version: latest
+    registry_username: undefined
+    registry_password: undefined
+
+  tasks:
+    - name: "Log into docker hub registry"
+      docker_login:
+        api_version: 1.18
+        email: "miiro@getintodevops.com"
+        username: "{{ registry_username }}"
+        password: "{{ registry_password }}"
+
+    - name: "Ensure our app container is running"
+      docker_container:
+        api_version: 1.18
+        name: app
+        state: started
+        image: "getintodevops/hellonode:{{ deploy_version }}"
+        pull: true
+        env:
+          APP_VERSION: "{{ deploy_version }}"
+        ports:
+          - "8000:8000"
+
+    - name: "Log the deployment"
+      shell: 'echo $(date) -- {{ deploy_version }} >> /var/log/deploy.log'
