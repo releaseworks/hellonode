@@ -27,7 +27,7 @@ node {
     stage("deploy infrastructure") {
         stage("build infra") { 
             withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'devops-aws-credentials', passwordVariable: 'password', usernameVariable: 'username']]) {
-                docker.image("hashicorp/terraform:light").inside {
+                docker.image("hashicorp/terraform:0.7.0").inside {
                     sh 'AWS_ACCESS_KEY=${username} AWS_SECRET_ACCESS_KEY=${password} terraform remote config -backend=s3 -backend-config=\\"bucket=and-devops-demo-state\\" -backend-config=\\"key=state\\"'
 
                     sh 'AWS_ACCESS_KEY=${username} AWS_SECRET_ACCESS_KEY=${password} terraform apply'
