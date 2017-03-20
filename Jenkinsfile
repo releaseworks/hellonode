@@ -30,7 +30,7 @@ node {
                 docker.image("hashicorp/terraform:0.7.0").inside {
                     sh 'AWS_ACCESS_KEY=${username} AWS_SECRET_ACCESS_KEY=${password}'
 
-                    sh 'terraform remote config -backend=s3 -backend-config=\\"bucket=and-devops-demo-state\\" -backend-config=\\"key=state\\" -backend-config=\\"region=eu-west-1\\"'
+                    sh 'terraform remote config -backend=s3 -backend-config=\\"bucket=anddevops\\" -backend-config=\\"key=state\\" -backend-config=\\"region=eu-west-1\\"'
 
                     sh 'AWS_ACCESS_KEY=${username} AWS_SECRET_ACCESS_KEY=${password}'
                     sh 'terraform apply'
