@@ -23,6 +23,24 @@ node {
         }
     }
 
+
+    stage("deploy infrastructure") {
+        stage("build infra") { 
+            withCredentials([usernamePassword(credentialsId: 'devops-aws-credentials', passwordVariable: 'password', usernameVariable: 'username')]) {
+                docker.image("hashicorp/terraform:light").inside {
+                    sh 'AWS_ACCESS_KEY=${username} AWS_SECRET_ACCESS_KEY=${password}
+                    terraform remote config -backend=s3 -backend-config="bucket=and-devops-demo-state" -backend-config="key=state"'
+
+                    sh 'AWS_ACCESS_KEY=${username} AWS_SECRET_ACCESS_KEY=${password} terraform apply'
+                    IP_ADDRESSES = sh (
+                                        script: 'terraform output ips',
+                                        returnStdout: true
+                                    ).trim()
+                } 
+            }
+        }
+    }
+
     stage('Push image') {
         /* Finally, we'll push the image with two tags:
          * First, the incremental build number from Jenkins
@@ -41,8 +59,8 @@ node {
                 ansiblePlaybook(
                     colorized: true,
                     playbook: 'deploy.yml',
-                    credentialsId: 'deploy-credentials',
-                    extras: "-i and-devops-demo.dyname.net, -e registry_username=${username} -e registry_password=${password} -e deploy_version=${env.BUILD_NUMBER}"
+                    credentialsId: 'devops-aws-pem',
+                    extras: "-i ${IP_ADDRESSES}, -e registry_username=${username} -e registry_password=${password} -e deploy_version=${env.BUILD_NUMBER}"
                 )
             }
         }
