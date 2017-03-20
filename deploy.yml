@@ -7,6 +7,12 @@
     registry_password: undefined
 
   tasks:
+    - name: "Ensure python-pip is installed"
+      apt: "python-pip"
+
+    - name: "Ensure docker-py is installed"
+      pip: "docker-py"
+    
     - name: "Log into docker hub registry"
       docker_login:
         api_version: 1.18
