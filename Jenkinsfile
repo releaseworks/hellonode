@@ -28,9 +28,12 @@ node {
         stage("build infra") { 
             withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'devops-aws-credentials', passwordVariable: 'password', usernameVariable: 'username']]) {
                 docker.image("hashicorp/terraform:0.7.0").inside {
-                    sh 'AWS_ACCESS_KEY=${username} AWS_SECRET_ACCESS_KEY=${password} terraform remote config -backend=s3 -backend-config=\\"bucket=\\"and-devops-demo-state\\"\\" -backend-config=\\"key=\\"state\\"\\"'
+                    sh 'AWS_ACCESS_KEY=${username} AWS_SECRET_ACCESS_KEY=${password}'' 
 
-                    sh 'AWS_ACCESS_KEY=${username} AWS_SECRET_ACCESS_KEY=${password} terraform apply'
+                    sh 'terraform remote config -backend=s3 -backend-config=\\"bucket=and-devops-demo-state\\" -backend-config=\\"key=state\\" -backend-config=\\"region=eu-west-1\\"'
+
+                    sh 'AWS_ACCESS_KEY=${username} AWS_SECRET_ACCESS_KEY=${password}'
+                    sh 'terraform apply'
                     IP_ADDRESSES = sh (
                                         script: 'terraform output ips',
                                         returnStdout: true
