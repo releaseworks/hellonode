@@ -33,4 +33,16 @@ node {
             app.push("latest")
         }
     }
+
+    stage('Deploy with Ansible') {
+        ansiblePlaybook(
+            colorized: true,
+            playbook: 'deploy.yml',
+            credentialsId: 'deploy-credentials',
+            inventoryContent: 'and-devops-demo.dyname.net',
+            extraVars {
+                extraVar("deploy_version", "${env.BUILD_NUMBER}")
+            }
+        )
+    }
 }
