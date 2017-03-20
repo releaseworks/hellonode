@@ -36,14 +36,15 @@ node {
 
     stage('Deploy with Ansible') {
         def ansible_image = docker.image("williamyeh/ansible:alpine3")
-
-        ansible_image.inside("-u root") {
-            ansiblePlaybook(
-                colorized: true,
-                playbook: 'deploy.yml',
-                credentialsId: 'deploy-credentials',
-                extras: '-i and-devops-demo.dyname.net, -e deploy_version=${env.BUILD_NUMBER}'
-            )
+        withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', passwordVariable: 'password', usernameVariable: 'username')]) {
+            ansible_image.inside("-u root") {
+                ansiblePlaybook(
+                    colorized: true,
+                    playbook: 'deploy.yml',
+                    credentialsId: 'deploy-credentials',
+                    extras: '-i and-devops-demo.dyname.net, -e registry_username=${username} -e registry_password=${password} -e deploy_version=${env.BUILD_NUMBER}'
+                )
+            }
         }
     }
 }
