@@ -42,7 +42,7 @@ node {
                     colorized: true,
                     playbook: 'deploy.yml',
                     credentialsId: 'deploy-credentials',
-                    extras: '-i and-devops-demo.dyname.net, -e registry_username=${username} -e registry_password=${password} -e deploy_version=${env.BUILD_NUMBER}'
+                    extras: "-i and-devops-demo.dyname.net, -e registry_username=${username} -e registry_password=${password} -e deploy_version=${env.BUILD_NUMBER}"
                 )
             }
         }
