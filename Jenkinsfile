@@ -26,7 +26,7 @@ node {
 
     stage("deploy infrastructure") {
         stage("build infra") { 
-            withCredentials([usernamePassword(credentialsId: 'devops-aws-credentials', passwordVariable: 'password', usernameVariable: 'username')]) {
+            withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'devops-aws-credentials', passwordVariable: 'password', usernameVariable: 'username']]) {
                 docker.image("hashicorp/terraform:light").inside {
                     sh 'AWS_ACCESS_KEY=${username} AWS_SECRET_ACCESS_KEY=${password} terraform remote config -backend=s3 -backend-config="bucket=and-devops-demo-state" -backend-config="key=state"'
 
@@ -53,7 +53,7 @@ node {
 
     stage('Deploy with Ansible') {
         def ansible_image = docker.image("williamyeh/ansible:alpine3")
-        withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', passwordVariable: 'password', usernameVariable: 'username')]) {
+        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'docker-hub-credentials', passwordVariable: 'password', usernameVariable: 'username']]) {
             ansible_image.inside("-u root") {
                 ansiblePlaybook(
                     colorized: true,
