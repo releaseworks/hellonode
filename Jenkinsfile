@@ -36,8 +36,8 @@ node {
 
     stage('Deploy with Ansible') {
         def ansible_image = docker.image("williamyeh/ansible:alpine3")
-        
-        ansible_image.inside {
+
+        ansible_image.inside("-u root") {
             ansiblePlaybook(
                 colorized: true,
                 playbook: 'deploy.yml',
