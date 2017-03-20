@@ -40,9 +40,7 @@ node {
             playbook: 'deploy.yml',
             credentialsId: 'deploy-credentials',
             inventoryContent: 'and-devops-demo.dyname.net',
-            extraVars {
-                extraVar("deploy_version", "${env.BUILD_NUMBER}")
-            }
+            extras: '-e deploy_version=${env.BUILD_NUMBER}'
         )
     }
 }
