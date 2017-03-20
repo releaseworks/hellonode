@@ -39,7 +39,7 @@
       docker_container:
         api_version: 1.18
         name: app
-        state: restarted
+        state: started
         image: "getintodevops/hellonode:{{ deploy_version }}"
         pull: true
         env:
