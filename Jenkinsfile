@@ -42,8 +42,7 @@ node {
                 colorized: true,
                 playbook: 'deploy.yml',
                 credentialsId: 'deploy-credentials',
-                inventoryContent: 'and-devops-demo.dyname.net',
-                extras: '-e deploy_version=${env.BUILD_NUMBER}'
+                extras: '-i and-devops-demo.dyname.net, -e deploy_version=${env.BUILD_NUMBER}'
             )
         }
     }
