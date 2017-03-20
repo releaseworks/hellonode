@@ -35,12 +35,16 @@ node {
     }
 
     stage('Deploy with Ansible') {
-        ansiblePlaybook(
-            colorized: true,
-            playbook: 'deploy.yml',
-            credentialsId: 'deploy-credentials',
-            inventoryContent: 'and-devops-demo.dyname.net',
-            extras: '-e deploy_version=${env.BUILD_NUMBER}'
-        )
+        def ansible_image = docker.image("ansible/ansible")
+        
+        ansible_image.inside {
+            ansiblePlaybook(
+                colorized: true,
+                playbook: 'deploy.yml',
+                credentialsId: 'deploy-credentials',
+                inventoryContent: 'and-devops-demo.dyname.net',
+                extras: '-e deploy_version=${env.BUILD_NUMBER}'
+            )
+        }
     }
 }
