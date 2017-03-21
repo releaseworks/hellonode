@@ -30,7 +30,7 @@ node {
                 docker.image("hashicorp/terraform:light").inside {
                     sh 'AWS_ACCESS_KEY=${username} AWS_SECRET_ACCESS_KEY=${password} terraform apply terraform/'
                     IP_ADDRESSES = sh (
-                                        script: 'terraform output ips',
+                                        script: 'AWS_ACCESS_KEY=${username} AWS_SECRET_ACCESS_KEY=${password} terraform output ips',
                                         returnStdout: true
                                     ).trim()
                 } 
