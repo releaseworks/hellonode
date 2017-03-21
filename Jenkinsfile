@@ -50,6 +50,10 @@ node {
         }
     }
 
+    stage('Wait for infrastructure to get ready') {
+        sh 'sleep 30'
+    }
+
     stage('Deploy with Ansible') {
         def ansible_image = docker.image("williamyeh/ansible:alpine3")
         withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'docker-hub-credentials', passwordVariable: 'password', usernameVariable: 'username']]) {
