@@ -28,7 +28,6 @@ node {
         stage("build infra") { 
             withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'devops-aws-credentials', passwordVariable: 'password', usernameVariable: 'username']]) {
                 docker.image("hashicorp/terraform:light").inside {
-                    sh 'AWS_ACCESS_KEY=${username} AWS_SECRET_ACCESS_KEY=${password} terraform init terraform/'
                     sh 'AWS_ACCESS_KEY=${username} AWS_SECRET_ACCESS_KEY=${password} terraform apply terraform/'
                     IP_ADDRESSES = sh (
                                         script: 'terraform output ips',
