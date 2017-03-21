@@ -4,7 +4,13 @@ provider "aws" {
     region = "eu-west-1"
 }
 
-
+terraform {
+  backend "s3" {
+    bucket = "anddevops"
+    key    = "state"
+    region = "eu-west-1"
+  }
+}
 
 resource "aws_instance" "app" {
     ami = "ami-0451d977"
