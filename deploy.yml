@@ -11,7 +11,7 @@
       service: name=docker state=started
 
     - name: "Ensure python-pip is installed"
-      apt: name=python-pip
+      apt: name=python-pip update_cache=yes
 
     - name: "Ensure docker-py is installed"
       pip: name=docker-py
