@@ -52,7 +52,7 @@ node {
     }
 
     stage('Wait for infrastructure to get ready') {
-        sh 'sleep 30'
+        sh 'sleep 15'
     }
 
     stage('Deploy with Ansible') {
