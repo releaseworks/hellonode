@@ -7,20 +7,8 @@
     registry_password: undefined
 
   tasks:
-    - name: "Ensure repository key is installed"
-      apt_key:
-        id: "58118E89F3A912897C070ADBF76221572C52609D"
-        keyserver: "hkp://p80.pool.sks-keyservers.net:80"
-        state: present
-
-    - name: "Update apt"
-      apt_repository: repo='deb https://apt.dockerproject.org/repo ubuntu-xenial main' state=present
-
-    - name: "Install Docker"
-      apt: name=docker-engine update_cache=yes
-
     - name: "Make sure Docker daemon is running"
-      service: name=docker state=restarted
+      service: name=docker state=started
 
     - name: "Ensure python-pip is installed"
       apt: name=python-pip

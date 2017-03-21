@@ -11,7 +11,7 @@ terraform {
 }
 
 resource "aws_instance" "app" {
-    ami = "ami-405f7226"
+    ami = "ami-0451d977"
     count=2
     instance_type = "t2.micro"
     security_groups = ["chris-sec-group"]
