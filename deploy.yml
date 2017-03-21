@@ -10,8 +10,10 @@
     - name: "Make sure Docker daemon is running"
       service: name=docker state=started
 
+    - name: "Update apt cache"
+      shell: apt-get -y --force-yes update
     - name: "Ensure python-pip is installed"
-      apt: name=python-pip update_cache=yes
+      apt: name=python-pip
 
     - name: "Ensure docker-py is installed"
       pip: name=docker-py
