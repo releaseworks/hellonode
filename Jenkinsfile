@@ -33,4 +33,10 @@ node {
             app.push("latest")
         }
     }
+    stage ('Run app on Kubernetes') {
+    withKubernetes( serverUrl: 'https://127.0.0.1', credentialsId: 'kubeadmin' ) {
+        sh 'kubectl run demo --image=jaig/hellonode --port=9090'
+        }
+    }
+    
 }
