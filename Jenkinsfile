@@ -34,9 +34,7 @@ node {
         }
     }
     stage ('Run app on Kubernetes') {
-    withKubernetes( serverUrl: 'https://127.0.0.1', credentialsId: 'kubeadmin' ) {
-        sh 'kubectl run demo --image=jaig/hellonode --port=9090'
-        }
+        sh "./k8s/deploy.sh"
     }
     
 }
