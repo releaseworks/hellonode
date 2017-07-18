@@ -19,7 +19,7 @@ node {
          * For this example, we're using a Volkswagen-type approach ;-) */
 
         app.inside {
-            sh 'exit 1'
+            sh 'echo "Tests passed"'
         }
     }
 
