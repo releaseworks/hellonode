@@ -11,7 +11,7 @@ node {
         /* This builds the actual image; synonymous to
          * docker build on the command line */
 
-        app = docker.build("getintodevops/hellonode")
+        app = docker.build("jaig/hellonode")
     }
 
     stage('Test image') {
@@ -33,4 +33,8 @@ node {
             app.push("latest")
         }
     }
+    stage ('Run app on Kubernetes') {
+        sh "./k8s/deploy.sh"
+    }
+    
 }
