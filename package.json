@@ -4,12 +4,12 @@
   "description": "A Hello World HTTP server",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node test.js",
     "start": "node main.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/getintodevops/hellonode/"
+    "url": "https://github.com/getintodevops/masterclass-codeexamples/"
   },
   "keywords": [
     "node",
@@ -17,5 +17,7 @@
     "dockerfile"
   ],
   "author": "miiro@getintodevops.com",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": { "test": ">=0.6.0" }
 }
+
