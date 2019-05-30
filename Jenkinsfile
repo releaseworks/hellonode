@@ -10,7 +10,7 @@ node {
         /* This builds the actual image; synonymous to
          * docker build on the command line */
         // docker.build("foo", "--build-arg x=y .")
-        app = docker.build("getintodevops/hellonode")
+        app = docker.build("romainx/hellonode")
     }
 
     stage('Test image') {
@@ -27,7 +27,7 @@ node {
          * Second, the 'latest' tag.
          * Pushing multiple tags is cheap, as all the layers are reused. */
         docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-            app.push("${env.BUID_ID}")
+            //app.push("${env.BUID_ID}")
             app.push("latest")
         }
     }
