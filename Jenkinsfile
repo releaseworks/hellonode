@@ -22,8 +22,9 @@ node {
     }
 
     stage('Test image') {
-        /* Ideally, we would run a test framework against our image.
-         * For this example, we're using a Volkswagen-type approach ;-) */
+        /* Testing the image 
+           To be defined according to the image
+        */
         image.inside {
             sh 'echo "Tests passed"'
         }
@@ -34,8 +35,13 @@ node {
          *  1. The git commit short identifier
          *  2. The tag defined in the build.properties
          *  3. The 'latest' tag
-         * Note: Pushing multiple tags is cheap, as all the layers are reused. */
-        docker.withRegistry("https://registry.hub.docker.com", "docker-hub-credentials") {
+         * Note: Pushing multiple tags is cheap, as all the layers are reused.
+         *
+         * Require 2 environment variables from Jenkins
+         *  -  REGISTRY_URL: To be configured in Jenkins / Configuration / Global properties / Environment variables
+         *  -  REGISTRY_CRED: To be configured in Jenkins / Credentials (Username with password)
+         */
+        docker.withRegistry("${env.REGISTRY_URL}", "REGISTRY_CRED") {
             image.push("${commit}")
             image.push("${tag}")
             image.push("latest")
