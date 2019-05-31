@@ -4,7 +4,8 @@ node {
        https://stackoverflow.com/questions/39619093/how-to-read-properties-file-from-jenkins-2-0-pipeline-script 
     */
     def props = readProperties file:'build.properties'
-
+    def name = props['image.name']
+    
     stage('Clone repository') {
         /* Let's make sure we have the repository cloned to our workspace */
         checkout scm
@@ -15,7 +16,7 @@ node {
          * docker build on the command line */
         // docker.build("foo", "--build-arg x=y .")
         //image = docker.build(props['image.name'])
-        image = docker.build(props['image.name'])
+        image = docker.build(${name})
     }
 
     stage('Test image') {
