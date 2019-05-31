@@ -6,17 +6,18 @@ node {
     def props = readProperties file:'build.properties'
     String name = props['image.name']
     String tag = props['image.tag']
+    // Getting the short commit identifier
+    String commit = sh(returnStdout: true, script: "git describe --always")
 
     stage('Clone repository') {
-        /* Let's make sure we have the repository cloned to our workspace */
+        /* Simple checkout of the SCM */
         checkout scm
     }
 
     stage('Build image') {
-        /* This builds the actual image; synonymous to
-         * docker build on the command line */
+        /* Building the image
+         * $ docker build -t "${name}" .*/
         // docker.build("foo", "--build-arg x=y .")
-        //image = docker.build(props['image.name'])
         image = docker.build("${name}")
     }
 
@@ -29,12 +30,14 @@ node {
     }
 
     stage('Push image') {
-        /* Finally, we'll push the image with two tags:
-         * First, the incremental build number from Jenkins
-         * Second, the 'latest' tag.
-         * Pushing multiple tags is cheap, as all the layers are reused. */
+        /* Pushing the image with 3 tags:
+         *  1. The git commit short identifier
+         *  2. The tag defined in the build.properties
+         *  3. The 'latest' tag
+         * Note: Pushing multiple tags is cheap, as all the layers are reused. */
         docker.withRegistry("https://registry.hub.docker.com", "docker-hub-credentials") {
-            image.push("${env.GIT_COMMIT}")
+            image.push("${commit}")
+            image.push("${tag}")
             image.push("latest")
         }
     }
