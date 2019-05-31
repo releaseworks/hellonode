@@ -1,6 +1,6 @@
 node {
     def image
-    /* Loading properties file requires the pipeline-utility-steps plugin 
+    /* Loading properties file requires the pipeline-utility-steps jenkins plugin 
        https://stackoverflow.com/questions/39619093/how-to-read-properties-file-from-jenkins-2-0-pipeline-script 
     */
     def props = readProperties file:'build.properties'
@@ -15,7 +15,7 @@ node {
          * docker build on the command line */
         // docker.build("foo", "--build-arg x=y .")
         //image = docker.build(props['image.name'])
-        image = docker.build("romainx/hellonode")
+        image = docker.build(props['image.name'])
     }
 
     stage('Test image') {
@@ -31,9 +31,9 @@ node {
          * First, the incremental build number from Jenkins
          * Second, the 'latest' tag.
          * Pushing multiple tags is cheap, as all the layers are reused. */
-        docker.withRegistry "https://registry.hub.docker.com", "docker-hub-credentials" {
-            image.push "${env.BUILD_ID}"
-            image.push "latest"
+        docker.withRegistry("https://registry.hub.docker.com", "docker-hub-credentials") {
+            image.push("${env.BUILD_ID}")
+            image.push("latest")
         }
     }
 }
