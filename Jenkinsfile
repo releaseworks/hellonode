@@ -14,7 +14,8 @@ node {
         /* This builds the actual image; synonymous to
          * docker build on the command line */
         // docker.build("foo", "--build-arg x=y .")
-        image = docker.build(props['image.name'])
+        //image = docker.build(props['image.name'])
+        image = docker.build("romainx/hellonode")
     }
 
     stage('Test image') {
