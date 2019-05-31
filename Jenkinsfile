@@ -25,9 +25,9 @@ node {
         /* Testing the image 
            To be defined according to the image
         */
-        image.inside {
+        /* image.inside {
             sh 'echo "Tests passed"'
-        }
+        }*/
     }
 
     stage('Push image') {
