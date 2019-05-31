@@ -39,11 +39,11 @@ node {
          *
          * Require 2 environment variables from Jenkins
          *  -  REGISTRY_URL: To be configured in Jenkins / Configuration / Global properties / Environment variables
-         *  -  REGISTRY_CRED: To be configured in Jenkins / Credentials (Username with password)
+         *  -  REGISTRY_CREDS: To be configured in Jenkins / Credentials (Username with password)
          */
         echo "Using the Registry: ${REGISTRY_URL}"
         
-        docker.withRegistry("${REGISTRY_URL}", "REGISTRY_CRED") {
+        docker.withRegistry("https://registry.hub.docker.com", "REGISTRY_CREDS") {
             image.push("${commit}")
             image.push("${tag}")
             image.push("latest")
