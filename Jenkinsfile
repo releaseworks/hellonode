@@ -6,8 +6,12 @@ node {
     def props = readProperties file:'build.properties'
     String name = props['image.name']
     String tag = props['image.tag']
-    // Getting the short commit identifier
-    String commit = sh(returnStdout: true, script: "git describe --always")
+    // Getting the  commit identifier
+    // https://stackoverflow.com/questions/36507410/is-it-possible-to-capture-the-stdout-from-the-sh-dsl-command-in-the-pipeline
+    //String shortCommit = sh(returnStdout: true, script: "git describe --always").trim()
+    String gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+    // short SHA, possibly better for chat notifications, etc.
+    // String shortCommit = gitCommit.take(6)
 
     stage('Clone repository') {
         /* Simple checkout of the SCM */
@@ -18,7 +22,16 @@ node {
         /* Building the image
          * $ docker build -t "${name}" .*/
         // docker.build("foo", "--build-arg x=y .")
-        image = docker.build("${name}")
+        // build date, could also use BUILD_ID
+        String buildDate = sh(returnStdout: true, script: "date -u +'%Y-%m-%dT%H:%M:%SZ'")
+        // Specific syntax do not forgot the "." at the end 
+        // https://stackoverflow.com/questions/54150319/how-can-i-pass-parameters-using-jenkins-api-into-my-dockerfile
+        String buildArgs = "--build-arg BUILD_DATE='${buildDate}'\
+                           --build-arg BUILD_VERSION='${gitCommit}'\
+                           --build-arg IMAGE_NAME='${name}'\
+                           --build-arg VCS_REF='${tag}' ."
+        
+        image = docker.build("${name}", "${buildArgs}")
     }
 
     stage('Test image') {
@@ -42,10 +55,10 @@ node {
          *  -  REGISTRY_CREDS: To be configured in Jenkins / Credentials (Username with password)
          */
         docker.withRegistry("https://${REGISTRY_HOST}", "REGISTRY_CREDS") {
-            image.push("${commit}")
+            image.push("${gitCommit}")
             image.push("latest")
             // Trying to pull the tag to check if it already exists, before pushing it.
-            pushTag = sh (returnStatus: true, script: "docker pull ${REGISTRY_HOST}/${name}:${tag} > /dev/null") != 0
+            pushTag = sh(returnStatus: true, script: "docker pull ${REGISTRY_HOST}/${name}:${tag} > /dev/null") != 0
             if (pushTag) {
                 echo "Tag ${name}:${tag} does not exist -> pushing it ..."
                 image.push("${tag}")
@@ -59,11 +72,11 @@ node {
     stage('Cleanup image') {
         /* Removing images on the local host
         There is no implemntation for that in the plugin so doing it whith sh
+        TODO: Will not be done in case of error
         */
         sh "docker rmi ${name}:latest"
-        sh "docker rmi ${REGISTRY_HOST}/${name}:${commit}"
+        sh "docker rmi ${REGISTRY_HOST}/${name}:${gitCommit}"
         sh "docker rmi ${REGISTRY_HOST}/${name}:${tag}"
         sh "docker rmi ${REGISTRY_HOST}/${name}:latest"
-
     }
 }

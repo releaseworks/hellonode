@@ -1,6 +1,7 @@
 # use a node base image
 FROM node:7-onbuild
 
+ARG IMAGE_NAME
 ARG BUILD_DATE
 ARG VCS_REF
 ARG BUILD_VERSION
@@ -18,9 +19,8 @@ ARG BUILD_VERSION
 LABEL maintainer="miiro@getintodevops.com" \
       org.opencontainers.image.title="Hello node" \
       org.opencontainers.image.description="NodeJS basic example" \
-      org.opencontainers.image.source="https://github.com/getintodevops/hellonode" \
-      org.opencontainers.image.vendor="getintodevops" \
-      org.opencontainers.image.ref.name="getintodevops/hellonode" \
+      org.opencontainers.image.source="https://github.com/romainx/hellonode" \
+      org.opencontainers.image.ref.name=$IMAGE_NAME \
       org.opencontainers.image.created=$BUILD_DATE \
       org.opencontainers.image.version=$BUILD_VERSION \
       org.opencontainers.image.revision=$VCS_REF
