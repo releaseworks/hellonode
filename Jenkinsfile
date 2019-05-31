@@ -4,7 +4,8 @@ node {
        https://stackoverflow.com/questions/39619093/how-to-read-properties-file-from-jenkins-2-0-pipeline-script 
     */
     def props = readProperties file:'build.properties'
-    def name = props['image.name']
+    String name = props['image.name']
+    String tag = props['image.tag']
 
     stage('Clone repository') {
         /* Let's make sure we have the repository cloned to our workspace */
@@ -33,7 +34,7 @@ node {
          * Second, the 'latest' tag.
          * Pushing multiple tags is cheap, as all the layers are reused. */
         docker.withRegistry("https://registry.hub.docker.com", "docker-hub-credentials") {
-            image.push("${env.BUILD_ID}")
+            image.push("${env.GIT_COMMIT}")
             image.push("latest")
         }
     }
