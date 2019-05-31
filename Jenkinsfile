@@ -38,15 +38,24 @@ node {
          * Note: Pushing multiple tags is cheap, as all the layers are reused.
          *
          * Require 2 environment variables from Jenkins
-         *  -  REGISTRY_URL: To be configured in Jenkins / Configuration / Global properties / Environment variables
+         *  -  REGISTRY_HOST: To be configured in Jenkins / Configuration / Global properties / Environment variables
          *  -  REGISTRY_CREDS: To be configured in Jenkins / Credentials (Username with password)
          */
-        //echo "Using the Registry: ${REGISTRY_URL}"
         
-        docker.withRegistry("https://registry.hub.docker.com", "REGISTRY_CREDS") {
+        docker.withRegistry("https://${REGISTRY_HOST}", "REGISTRY_CREDS") {
             image.push("${commit}")
             image.push("${tag}")
             image.push("latest")
         }
+    }
+
+    stage('Cleanup image') {
+        /* Removing images on the local host
+        There is no implemntation for that in the plugin so doing it whith sh
+        */
+        sh "docker rmi ${name}:latest"
+        sh "docker rmi ${REGISTRY_HOST}/${name}:${commit}"
+        sh "docker rmi ${REGISTRY_HOST}/${name}:${tag}"
+        sh "docker rmi ${REGISTRY_HOST}/${name}:latest"
     }
 }
