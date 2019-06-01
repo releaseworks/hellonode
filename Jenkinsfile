@@ -16,6 +16,7 @@ node {
     stage('Clone repository') {
         /* Simple checkout of the SCM */
         checkout scm
+        def repositoryUrl = sh(returnStdout: true, script: 'git config remote.origin.url').trim()
     }
 
     stage('Build image') {
@@ -26,10 +27,8 @@ node {
         String buildDate = sh(returnStdout: true, script: "date -u +'%Y-%m-%dT%H:%M:%SZ'")
         // Specific syntax do not forgot the "." at the end 
         // https://stackoverflow.com/questions/54150319/how-can-i-pass-parameters-using-jenkins-api-into-my-dockerfile
-        String buildArgs = "--build-arg BUILD_DATE='${buildDate}'\
-                           --build-arg BUILD_VERSION='${gitCommit}'\
-                           --build-arg IMAGE_NAME='${name}'\
-                           --build-arg VCS_REF='${tag}' ."
+        String buildArgs = "--build-arg BUILD_SRC='${repositoryUrl}'\
+                            --build-arg BUILD_COMMIT='${gitCommit}' ."
         
         image = docker.build("${name}", "${buildArgs}")
     }
