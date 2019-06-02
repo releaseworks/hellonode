@@ -6,17 +6,16 @@ node {
     def props = readProperties file:'build.properties'
     String name = props['image.name']
     String tag = props['image.tag']
-    // Getting the  commit identifier
+    // Getting the Git information identifier
     // https://stackoverflow.com/questions/36507410/is-it-possible-to-capture-the-stdout-from-the-sh-dsl-command-in-the-pipeline
-    //String shortCommit = sh(returnStdout: true, script: "git describe --always").trim()
     String gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+    String repositoryUrl = sh(returnStdout: true, script: 'git config remote.origin.url').trim()
     // short SHA, possibly better for chat notifications, etc.
     // String shortCommit = gitCommit.take(6)
 
     stage('Clone repository') {
         /* Simple checkout of the SCM */
         checkout scm
-        def repositoryUrl = sh(returnStdout: true, script: 'git config remote.origin.url').trim()
     }
 
     stage('Build image') {
@@ -24,9 +23,9 @@ node {
          * $ docker build -t "${name}" .*/
         // docker.build("foo", "--build-arg x=y .")
         // build date, could also use BUILD_ID
-        String buildDate = sh(returnStdout: true, script: "date -u +'%Y-%m-%dT%H:%M:%SZ'")
         // Specific syntax do not forgot the "." at the end 
         // https://stackoverflow.com/questions/54150319/how-can-i-pass-parameters-using-jenkins-api-into-my-dockerfile
+        
         String buildArgs = "--build-arg BUILD_SRC='${repositoryUrl}'\
                             --build-arg BUILD_COMMIT='${gitCommit}' ."
         
