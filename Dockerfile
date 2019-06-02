@@ -13,7 +13,10 @@ WORKDIR /app
 COPY src /app
 
 # ---- Release with Alpine ----
-FROM node:8.9-alpine AS release
+# Weird behavior with Jenkins:
+# - https://stackoverflow.com/questions/51678535/how-to-resolve-cannot-retrieve-id-from-docker-when-building-docker-image-usin
+#FROM node:8.9-alpine AS release
+FROM node:8.9-alpine
 
 ## ---- Labels ----
 # can be seen with docker inspect
