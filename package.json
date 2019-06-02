@@ -1,5 +1,5 @@
 {
-  "name": "getintodevops-hellonode",
+  "name": "romainx-hellonode",
   "version": "1.0.0",
   "description": "A Hello World HTTP server",
   "main": "main.js",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/getintodevops/masterclass-codeexamples/"
+    "url": "https://github.com/romainx/hellonode"
   },
   "keywords": [
     "node",
@@ -20,4 +20,3 @@
   "license": "ISC",
   "devDependencies": { "test": ">=0.6.0" }
 }
-
