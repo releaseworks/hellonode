@@ -10,3 +10,6 @@ Docker plugin documentation can be found [here](https://go.cloudbees.com/docs/pl
 
 Check registry URL in docker commons plugin
 https://wiki.jenkins.io/display/JENKINS/Docker+Commons+Plugin
+
+Check how to share libraries (to share the pipeline
+https://jenkins.io/blog/2017/10/02/pipeline-templates-with-shared-libraries/)

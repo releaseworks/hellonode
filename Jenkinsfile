@@ -49,7 +49,7 @@ node {
          * Note: Pushing multiple tags is cheap, as all the layers are reused.
          * TODO: Check if it's better with Docker plugin to manage credentials and registry
          * Require 2 environment variables from Jenkins
-         *  -  REGISTRY_HOST: To be configured in Jenkins / Configuration / Global properties / Environment variables
+         *  -  REGISTRY_HOST: To be configured in Jenkins / Configuration / Global properties / Environment variables (for e.g. registry.hub.docker.com)
          *  -  REGISTRY_CREDS: To be configured in Jenkins / Credentials (Username with password)
          */
         docker.withRegistry("https://${REGISTRY_HOST}", "REGISTRY_CREDS") {
