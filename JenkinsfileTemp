@@ -1,6 +1,8 @@
 @Library('docker-pipeline-template') _
 
 dockerPipeline {
+    imageName = 'romainx/hellonode'
+    imageTag = '0.0.3'
     branch = 'master'
     scmUrl = 'ssh://git@myScmServer.com/repos/myRepo.git'
     email = 'team@example.com'
