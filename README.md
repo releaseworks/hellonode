@@ -13,3 +13,6 @@ https://wiki.jenkins.io/display/JENKINS/Docker+Commons+Plugin
 
 Check how to share libraries (to share the pipeline
 https://jenkins.io/blog/2017/10/02/pipeline-templates-with-shared-libraries/)
+
+https://docs.docker.com/docker-hub/builds/advanced/
+https://github.com/jenkinsci/docker-traceability-plugin
