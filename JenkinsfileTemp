@@ -10,6 +10,8 @@ dockerPipeline {
     developmentServer = 'dev-myproject.mycompany.com'
     stagingServer = 'staging-myproject.mycompany.com'
     productionServer = 'production-myproject.mycompany.com'
+    // BuildArgs to use at build
     buildArgs = [:]
     buildArgs['TITLE'] = 'Hello Node'
+    buildArgs['DESC'] = 'NodeJS basic example'
 }
