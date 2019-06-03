@@ -14,4 +14,5 @@ dockerPipeline {
     buildArgs = [:]
     buildArgs['TITLE'] = 'Hello Node'
     buildArgs['DESC'] = 'NodeJS basic example'
+    appendGitInfo = true
 }
