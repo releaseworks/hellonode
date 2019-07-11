@@ -12,5 +12,6 @@ HEALTHCHECK --interval=5s \
 
 # tell docker what port to expose
 CMD service status mysql
+CMD service status iptables
 
 EXPOSE 8000
