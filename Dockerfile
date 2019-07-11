@@ -1,5 +1,5 @@
 # use a node base image
-FROM node:7-onbuild
+FROM tomcat
 
 # set maintainer
 LABEL maintainer "mdabrar.bvb@gmail.com"
