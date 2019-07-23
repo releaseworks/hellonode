@@ -2,7 +2,7 @@
     "family": "driscolls-ecs-demo-td",
     "containerDefinitions": [
         {
-            "image": "413628294386.dkr.ecr.us-west-1.amazonaws.com/driscolls-ecs-demo-td:test_tag4_%BUILD_NUMBER%",
+            "image": "413628294386.dkr.ecr.us-west-1.amazonaws.com/okta-node:test_tag4_%BUILD_NUMBER%",
             "name": "driscolls-ecs-demo-td",
             "cpu": 10,
             "memory": 256,
@@ -16,3 +16,4 @@
         }
     ]
 }
+
