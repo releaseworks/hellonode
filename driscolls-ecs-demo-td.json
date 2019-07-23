@@ -3,7 +3,7 @@
     "containerDefinitions": [
         {
             "image": "413628294386.dkr.ecr.us-west-1.amazonaws.com/okta-node:test_tag4_%BUILD_NUMBER%",
-            "name": "driscolls-ecs-demo-td",
+            "name": "okta-node",
             "cpu": 10,
             "memory": 256,
             "essential": true,
