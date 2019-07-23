@@ -1,0 +1,18 @@
+{
+    "family": "driscolls-ecs-demo-td-family",
+    "containerDefinitions": [
+        {
+            "image": "413628294386.dkr.ecr.us-west-1.amazonaws.com/driscolls-ecs-demo-td:test_tag4_%BUILD_NUMBER%",
+            "name": "driscolls-ecs-demo-td",
+            "cpu": 10,
+            "memory": 256,
+            "essential": true,
+            "portMappings": [
+                {
+                    "containerPort": 5000,
+                    "hostPort": 80
+                }
+            ]
+        }
+    ]
+}
