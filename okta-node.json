@@ -1,0 +1,19 @@
+{
+    "family": "okta-family",
+    "containerDefinitions": [
+        {
+            "image": "413628294386.dkr.ecr.us-west-1.amazonaws.com/okta_node:test_tag4_%BUILD_NUMBER%",
+            "name": "okta_node",
+            "cpu": 10,
+            "memory": 256,
+            "essential": true,
+            "portMappings": [
+                {
+                    "containerPort": 5000,
+                    "hostPort": 80
+                }
+            ]
+        }
+    ]
+}
+  
