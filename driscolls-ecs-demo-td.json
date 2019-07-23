@@ -9,7 +9,7 @@
             "essential": true,
             "portMappings": [
                 {
-                    "containerPort": 5000,
+                    "containerPort": 3000,
                     "hostPort": 80
                 }
             ]
